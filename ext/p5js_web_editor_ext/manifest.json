@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "p5.js Code Sync",
+  "version": "1.0",
+  "description": "Send p5.js code to WebSocket on save",
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://editor.p5js.org/*",
+    "https://preview.p5js.org/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://editor.p5js.org/*"
+      ],
+      "js": [
+        "content.js",
+        "injected.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://preview.p5js.org/*"
+      ],
+      "js": [
+        "content_iframe.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "injected.js"
+      ],
+      "matches": [
+        "https://editor.p5js.org/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_title": "p5.js Code Sync"
+  }
+}
