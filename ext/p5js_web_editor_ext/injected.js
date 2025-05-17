@@ -1,17 +1,17 @@
 const WS_URL = "ws://localhost:8080";
 let ws = new WebSocket(WS_URL);
 
-(function waitForCodeMirror() {
-  const check = () => {
-    const cmEl = document.querySelector(".CodeMirror");
-    if (cmEl && cmEl.CodeMirror) {
-      hookSaveEvents(cmEl.CodeMirror);
-    } else {
-      setTimeout(check, 1000);
-    }
-  };
-  check();
-})();
+console.log(document.querySelector(".CodeMirror").CodeMirror);
+
+const observer = new MutationObserver(() => {
+  const cmEl = document.querySelector(".CodeMirror");
+  if (cmEl && cmEl.CodeMirror) {
+    observer.disconnect();
+    hookSaveEvents(cmEl.CodeMirror);
+  }
+});
+
+observer.observe(document.body, { childList: true, subtree: true });
 
 function hookSaveEvents(cm) {
   console.log("[content.js] Hooking into save events");
@@ -42,3 +42,4 @@ function sendCode(cm) {
     });
   }
 }
+
